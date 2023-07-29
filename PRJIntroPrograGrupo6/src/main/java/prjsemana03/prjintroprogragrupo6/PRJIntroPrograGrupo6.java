@@ -11,51 +11,52 @@ import javax.swing.JOptionPane;
 public class PRJIntroPrograGrupo6 {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        clsHelper clasH = new clsHelper();
+        
         char usuario = ' ';
         
         do {
-            usuario = JOptionPane.showInputDialog("Seleccione una opción:"
+            usuario = clasH.recibeChar("Seleccione una opción:"
                     + "\nA. Modulo Ventas"
                     + "\nB. Modulo Compras"
                     + "\nC. Modulo usuarios"
                     + "\nD. Modulo Inventario"
                     + "\nE. Modulo Administracion"
                     + "\nF. Seguridad del sistema"
-                    + "\nS. Salir").toUpperCase().charAt(0);
+                    + "\nS. Salir");
             
         switch (usuario) {
                 case 'A':
-                    JOptionPane.showMessageDialog(null, "Iniciando modulo de ventas");
+                    clasH.imprimeMensaje( "Iniciando modulo de ventas");
                     // this.ventas();
                     break;
                 case 'B':
-                    JOptionPane.showMessageDialog(null, "Iniciando modulo de compras");
+                    clasH.imprimeMensaje( "Iniciando modulo de compras");
                     // this.compras();
                     break;
                 case 'C':
-                    JOptionPane.showMessageDialog(null, "Iniciando modulo usuarios");
+                    clasH.imprimeMensaje( "Iniciando modulo usuarios");
                     // this.usuarios();
                     break;
                 case 'D':
-                    JOptionPane.showMessageDialog(null, "Iniciando modulo inventario");
+                    clasH.imprimeMensaje( "Iniciando modulo inventario");
                     // this.inventario();
                     break;
                 case 'E':
-                    JOptionPane.showMessageDialog(null, "Iniciando modulo administracion");
+                    clasH.imprimeMensaje( "Iniciando modulo administracion");
                     // this.administracion();
                     break;    
                 case 'F':
-                    JOptionPane.showMessageDialog(null, "Abriendo seguridad del sistema");
+                    clasH.imprimeMensaje( "Abriendo seguridad del sistema");
                     // this.seguridad();
                     break;    
                 
                 case 'S':
-                    JOptionPane.showMessageDialog(null, "Apagando aplicacion.");
+                    clasH.imprimeMensaje( "Apagando aplicacion.");
                      
                     break;
                 default:
-                    JOptionPane.showMessageDialog(null, "Digite una opcion valida");
+                    clasH.imprimeMensaje( "Digite una opcion valida");
                     break;
             }
             
