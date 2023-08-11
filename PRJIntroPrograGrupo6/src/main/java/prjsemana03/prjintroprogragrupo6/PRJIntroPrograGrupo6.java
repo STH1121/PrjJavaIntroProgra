@@ -52,7 +52,7 @@ public class PRJIntroPrograGrupo6 {
                     break;    
                 
                 case 'S':
-                    clasH.imprimeMensaje( "Apagando aplicacion.");
+                    clasH.imprimeMensaje( "Cerrando aplicacion.");
                      
                     break;
                 default:
