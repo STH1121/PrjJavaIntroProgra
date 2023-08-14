@@ -5,7 +5,7 @@
 package prjsemana03.prjintroprogragrupo6;
 
 import javax.swing.JOptionPane;
-
+import java.awt.TextArea;
 
 /**
  *
@@ -45,4 +45,8 @@ public class clsHelper {
     public String convetirString(int mensaje){
             return String.valueOf(mensaje);
     }
+    public void imprimeMensaje(TextArea mensaje){
+        JOptionPane.showMessageDialog(null, mensaje);
+    }
+    
 }

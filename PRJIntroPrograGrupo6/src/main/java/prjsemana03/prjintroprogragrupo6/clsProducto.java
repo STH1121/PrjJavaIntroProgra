@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package prjsemana03.prjintroprogragrupo6;
-
+import java.awt.TextArea;
 /**
  *
  * @author Steven
@@ -126,6 +126,15 @@ public class clsProducto {
         posProducto++;
         return posProducto;
     }
+
+    @Override
+    public String toString() {
+        return nombre + "\t" + cantidad + "\t" + precio;
+    }
+    
+    
+    
+    
     
     public int obtenerPoscProductos(clsProducto producto[], int poscProductos, String accion){
         clsHelper clsH = new clsHelper();
@@ -140,7 +149,7 @@ public class clsProducto {
         return poscProductoBuscado;
     }    
     
-    public void modificarCliente(clsProducto[] producto, int posProducto){
+    public void modificarProducto(clsProducto[] producto, int posProducto){
         clsHelper clsH = new clsHelper();
         int posc = this.obtenerPoscProductos(producto, posProducto, "modificar");
         if (posc == -1) {
@@ -149,28 +158,45 @@ public class clsProducto {
             char opcion ='S';
             do {
                 opcion = clsH.recibeChar("Seleccione el dato que desea modificar:"
-                        + "\n A. Nombre Completo"
-                        + "\n B. Correo"
-                        + "\n C. Telefono"
-                        + "\n D. Direccion"
-                        + "\n E. Edad"
+                        + "\n A. Nombre Producto"
+                        + "\n B. Descripcion"
+                        + "\n C. Caja"
+                        + "\n D. Tamaño caja"
+                        + "\n E. Cantidad producto"
+                        + "\n F. Precio del producto"
+                        + "\n G. Psicodelico"
                         + "\n S. Salir");
                 switch(opcion){
                     case 'A':
-                        producto[posc].setNombreCompleto(clsH.recibeString("Digite el nuevo nombre del cliente:"));
+                        producto[posc].setNombre(clsH.recibirString("Digite el nuevo nombre del producto:"));
                         break;
                     case 'B':
-                        producto[posc].setCorreo(clsH.recibeString("Digite el nuevo correo del cliente:"));
+                        producto[posc].setDescripcion(clsH.recibirString("Digite la nuevo descripcion del producto:"));
                         break;
                     case 'C':
-                        producto[posc].setNumTelefono(clsH.recibeString("Digite el nuevo teléfono del cliente:"));
+                        do {
+                        char caja = clsH.recibeChar("El producto viene en tabletas? S/N");
+                            } while (caja != 'S' || caja != 'N');
+        
+                        producto[posc].setCaja(caja);
                         break;
                     case 'D':
-                        producto[posc].setDireccion(clsH.recibeString("Digite la nueva direccion del cliente:"));
+                        producto[posc].setTamacaja(clsH.recibeInt("Digite el tamaño de las tabletas:"));
                         break;
                     case 'E':
-                        producto[posc].setEdad(clsH.recibeInt("Digite la nueva edad del cliente:"));
+                        producto[posc].setCantidad(clsH.recibeInt("Digite la nueva cantidad de producto, si es pastillas en cantidad total de pastillas"));
                         break;
+                    case 'F':
+                        producto[posc].setPrecio(clsH.recibeInt("Digite el nuevo precio del producto:"));
+                        break;   
+                    case 'G':
+                        
+                        do {
+                        char psicodelico = clsH.recibeChar("El producto requiere permiso de un administrador? S/N");
+                            } while (psicodelico != 'S' || psicodelico != 'N');
+        
+                        producto[posc].setPsicodelico(psicodelico);
+                        break;   
                     case 'S':
                         clsH.imprimeMensaje("Datos modificados correctamente");
                         break;
@@ -183,8 +209,52 @@ public class clsProducto {
         }
     }
     
-    
+    public int eliminarProducto(clsProducto producto[], int posProducto){
+            clsHelper clsH = new clsHelper();
+            int posc = this.obtenerPoscProductos(producto, posProducto, "eliminar");
+            if (posc == -1) {
+                clsH.imprimeMensaje("No se encontraron coincidencias con el nombre digitado");
+            }else{
+                for (int i = posc; i < posProducto-1; i++) {
+                    producto[i] = producto[i+1];
+                }
+                producto[posProducto] = null;
+                posProducto--;
 
+                clsH.imprimeMensaje("El Producto se eliminó de forma correcta");
+            }
+            return posProducto;
+        }    
+
+    public void buscarProducto(clsProducto producto[], int poscProducto){
+        clsHelper clsH = new clsHelper();
+        int posc = this.obtenerPoscProductos(producto, poscProducto, "buscar");
+        if (posc==-1) {
+            clsH.imprimeMensaje("No se encontraron coincidencia con el producto digitado");
+        }
+        else{
+            clsH.imprimeMensaje("Los datos del cliente son:\n"
+                    + " Nombre: "+producto[posc].getNombre()
+                    + " \nDescripcion: "+producto[posc].getDescripcion()
+                    + " \nCantidad: "+producto[posc].getCantidad()
+                    + " \nPrecio: "+producto[posc].getPrecio()
+                    + " \nOcupa permiso de administrador? "+producto[posc].getPsicodelico()
+            );
+        }
+    }
+
+    public void listarProductos(clsProducto[] producto, int poscCliente){
+        clsHelper clsH = new clsHelper();
+        String impresion = "Nombre\tCantidad\tprecio";
+        for (int i = 0; i < poscCliente; i++) {
+            impresion += producto[i].toString()+"\n";
+        }
+        clsH.imprimeMensaje(new TextArea(impresion));
+    }
     
     
+    
+    
+    
+ 
 }
