@@ -128,7 +128,30 @@ public class clsMenu {
                     for (int i = 0; i < posCompra; i++) {
                         cantidadTotal+= compra[i].getCantidad() * compra[i].getPrecio();
                     }
-                    factura += "\n\t\t"+cantidadTotal;
+                    factura += "\n\t\t"+cantidadTotal+"₡";
+                    
+                    
+                    
+                    for (int i = 0; i < posCompra; i++) {
+                        
+                        for (int j = 0; j < posInventario; j++) {
+                            
+                            if (compra[i].getNombre().equalsIgnoreCase(inventario[j].getNombre())) {
+                                if (compra[i].getCantidad()> inventario[j].getCantidad()) {
+                                    inventario[j].setCantidad(inventario[j].getCantidad()-compra[i].getCantidad());
+                                }else{
+                                    clsH.imprimeMensaje("No hay suficente "+compra[i].getNombre()+" para realizar la venta");
+                                    break;
+                                }
+                                
+                                
+                            }
+                            
+                            
+                        }
+                    }
+                    
+                    
                     
                     
                     
