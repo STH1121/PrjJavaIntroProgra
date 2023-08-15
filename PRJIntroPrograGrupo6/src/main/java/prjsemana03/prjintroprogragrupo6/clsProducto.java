@@ -11,15 +11,21 @@ import java.awt.TextArea;
 public class clsProducto {
     String nombre;
     String descripcion;
-    char caja;
-    int tamacaja;
-    int cantidad;
+    char caja;  // SON PASTILLAS
+    int tamacaja;  // CUANTAS POR TABLETA
+    int cantidad; // TOTAL 
     int precio;
-    char psicodelico;
+    char psicodelico;  // SI OCUPA PERMISO DE ADMINISTRADOR PARA VENDERLO
 
     public clsProducto() {
     }
 
+    public clsProducto(String nombre, int cantidad) {
+        this.nombre = nombre;
+        this.cantidad = cantidad;
+        
+    }
+    
     
     
     public clsProducto(String nombre, String descripcion, char caja, int tamacaja, int cantidad, int precio, char psicodelico) {
@@ -93,11 +99,14 @@ public class clsProducto {
         }
             
     }
-
+    @Override
+    public String toString() {
+        return nombre + "\t" + cantidad + "\t" + precio;
+    }
     
     public clsProducto[] generarListaProductos(){
         clsHelper clsH = new clsHelper();
-        int tamano = clsH.recibeInt("Digite el tamaño de la lista de productos");
+        int tamano = 100;
         clsProducto productos[] = new clsProducto[tamano];
         return productos;
     }
@@ -127,10 +136,22 @@ public class clsProducto {
         return posProducto;
     }
 
-    @Override
-    public String toString() {
-        return nombre + "\t" + cantidad + "\t" + precio;
+    public int agregarProductoCompra(clsProducto producto[], int posProducto){
+        clsHelper clsH = new clsHelper();
+        
+        String nombre = clsH.recibirString("Nombre del producto:");
+        
+        
+        int cantidad = clsH.recibeInt("Digite la cantidad del producto");
+        
+        
+        producto[posProducto] = new clsProducto(nombre,cantidad);
+        
+        posProducto++;
+        return posProducto;
     }
+
+    
     
     
     
