@@ -30,7 +30,7 @@ public class clsMenu {
         switch (usuario) {
                 case 'A':
                     clasH.imprimeMensaje( "Iniciando modulo de ventas");
-                    // this.ventas();
+                    //this.moduloVentas(invetario[],posInventario);
                     break;
                 case 'B':
                     clasH.imprimeMensaje( "Iniciando modulo de compras");
@@ -77,6 +77,95 @@ public class clsMenu {
     
     
     
-    
+    public clsProducto[] moduloVentas(clsProducto inventario[],int posInventario){
+        clsHelper clsH = new clsHelper();
+        clsProducto clsP = new clsProducto();
+        
+        char usuario = ' ';
+        
+        do {
+            usuario = clsH.recibeChar("Seleccione una opción:"
+                    + "\nA. Factura nueva"
+                    + "\nB. "
+                    
+                    + "\nS. Salir");
+            switch (usuario){
+                case 'A':
+                String factura = "Nombre\tCantidad\tPrecio\n";
+                int cantidadTotal= 0;
+                clsProducto compra[] = clsP.generarListaProductos();
+                int posCompra = 0;
+                char opcion = ' ';
+                do {
+                    posCompra = clsP.agregarProductoCompra(compra, posCompra);
+
+                    String nombreBuscar = compra[posCompra].getNombre();
+                    int poscProductoBuscado = -1;
+                    for (int i = 0; i < posInventario; i++) {
+                        if (nombreBuscar.equalsIgnoreCase(inventario[i].getNombre())) {
+                        poscProductoBuscado = i;
+                        break;
+                        }
+                    }
+                    if (poscProductoBuscado == -1) {
+                        clsH.imprimeMensaje("el producto no esta en el inventario");
+                    }else{
+                    
+                    compra[posCompra].setPrecio(inventario[poscProductoBuscado].getPrecio());
+                    posCompra++;
+                    
+                    }
+            
+            
+            
+                        
+                    opcion = clsH.recibeChar("Desea agregar mas producto? S/N");
+
+                    } while (opcion == 'N');
+                    for (int i = 0; i < posCompra; i++) {
+                        factura += compra[i].toString()+"\n";
+                    }
+                    for (int i = 0; i < posCompra; i++) {
+                        cantidadTotal+= compra[i].getCantidad() * compra[i].getPrecio();
+                    }
+                    factura += "\n\t\t"+cantidadTotal;
+                    
+                    
+                    
+                    break;
+                case 'B':
+                 
+                break; 
+                case 'S':
+                    clsH.imprimeMensaje( "Cerrando Modulo.");
+                     
+                    break;
+                default:
+                    clsH.imprimeMensaje( "Digite una opcion valida");
+                    break;
+                    }
+                    
+
+
+                } while (usuario != 'S');
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        return inventario;
+    }
     
 }
