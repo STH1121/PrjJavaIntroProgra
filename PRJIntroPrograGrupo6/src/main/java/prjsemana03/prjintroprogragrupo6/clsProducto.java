@@ -111,9 +111,9 @@ public class clsProducto {
         return productos;
     }
     
-    public int agregarProducto(clsProducto producto[], int posProducto){
+    public int agregarProducto(clsProducto producto[], int posProducto, String accion){
         clsHelper clsH = new clsHelper();
-        String nombre = clsH.recibirString("Nombre del producto:");
+        String nombre = clsH.recibirString("Nombre del producto"+accion+":");
         String descripcion = clsH.recibirString("Descripcion del producto:");
         
         do {
@@ -136,10 +136,10 @@ public class clsProducto {
         return posProducto;
     }
 
-    public int agregarProductoCompra(clsProducto producto[], int posProducto){
+    public int agregarProductoCompra(clsProducto producto[], int posProducto,String accion){
         clsHelper clsH = new clsHelper();
         
-        String nombre = clsH.recibirString("Nombre del producto:");
+        String nombre = clsH.recibirString("Nombre del producto"+accion+":");
         
         
         int cantidad = clsH.recibeInt("Digite la cantidad del producto");

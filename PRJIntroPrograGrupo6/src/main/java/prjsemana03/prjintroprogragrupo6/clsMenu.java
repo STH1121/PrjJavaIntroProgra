@@ -73,33 +73,83 @@ public class clsMenu {
     }
 
     
-    
+    public clsProducto[] moduloCompra(clsProducto inventario[], int posInventario){
+        clsHelper clsH = new clsHelper();
+        clsProducto clsP = new clsProducto();
+        char usuario = ' ';
+        do {
+             usuario = clsH.recibeChar("Seleccione una opción:"
+                    + "\nA. Compra nueva"
+                    + "\nB. "
+                    + "\nC. "
+                    
+                    + "\nS. Salir");
+            switch(usuario){
+                case 'A':
+                    String productoAgregar= clsH.recibirString("Digite el nombre del producto a agregar:");
+                    int posProductoAgregar= -1;
+                    int cantidadAgregar =0;
+                    for (int i = 0; i < posInventario; i++) {
+                        if ( productoAgregar.equalsIgnoreCase(inventario[i].getNombre())) {
+                            posProductoAgregar = i;
+                        }
+                    }
+                    if (posProductoAgregar == -1) {
+                        clsH.imprimeMensaje("El producto no existe,\ntiene que agregarlo desde el modulo de inventario");
+                    }else{
+                        cantidadAgregar = clsH.recibeInt("Indique la cantidad de producto a agregar:");
+                        inventario[posProductoAgregar].setCantidad(inventario[posProductoAgregar].getCantidad()+cantidadAgregar);
+                    }
+                    
+                
+                
+                    break;
+                    
+                 
+                    case 'S':
+                    clsH.imprimeMensaje( "Cerrando Modulo.");
+                     
+                    break;
+                default:
+                    clsH.imprimeMensaje( "Digite una opcion valida");
+                    break;
+                    
+                    
+            }
+            
+        } while (usuario !='S');
+        
+        
+        return inventario;
+    }
     
     
     
     public clsProducto[] moduloVentas(clsProducto inventario[],int posInventario){
         clsHelper clsH = new clsHelper();
         clsProducto clsP = new clsProducto();
-        
+        clsInforme clsI = new clsInforme();
         char usuario = ' ';
         
         do {
             usuario = clsH.recibeChar("Seleccione una opción:"
                     + "\nA. Factura nueva"
-                    + "\nB. "
+                    + "\nB. Revisar factura anterior"
+                    + "\nC. Todas las Facturas"
                     
                     + "\nS. Salir");
             switch (usuario){
                 case 'A':
                 String factura = "Nombre\tCantidad\tPrecio\n";
                 int cantidadTotal= 0;
+                int iva = 0;
                 clsProducto compra[] = clsP.generarListaProductos();
-                int posCompra = 0;
+                int posVenta = 0;
                 char opcion = ' ';
                 do {
-                    posCompra = clsP.agregarProductoCompra(compra, posCompra);
+                    posVenta = clsP.agregarProductoCompra(compra, posVenta,"Vender");
 
-                    String nombreBuscar = compra[posCompra].getNombre();
+                    String nombreBuscar = compra[posVenta].getNombre();
                     int poscProductoBuscado = -1;
                     for (int i = 0; i < posInventario; i++) {
                         if (nombreBuscar.equalsIgnoreCase(inventario[i].getNombre())) {
@@ -111,8 +161,8 @@ public class clsMenu {
                         clsH.imprimeMensaje("el producto no esta en el inventario");
                     }else{
                     
-                    compra[posCompra].setPrecio(inventario[poscProductoBuscado].getPrecio());
-                    posCompra++;
+                    compra[posVenta].setPrecio(inventario[poscProductoBuscado].getPrecio());
+                    posVenta++;
                     
                     }
             
@@ -122,17 +172,21 @@ public class clsMenu {
                     opcion = clsH.recibeChar("Desea agregar mas producto? S/N");
 
                     } while (opcion == 'N');
-                    for (int i = 0; i < posCompra; i++) {
+                    for (int i = 0; i < posVenta; i++) {
                         factura += compra[i].toString()+"\n";
                     }
-                    for (int i = 0; i < posCompra; i++) {
+                    for (int i = 0; i < posVenta; i++) {
                         cantidadTotal+= compra[i].getCantidad() * compra[i].getPrecio();
                     }
-                    factura += "\n\t\t"+cantidadTotal+"₡";
+                    factura += "\n\t\t"+cantidadTotal+"₡\n";
+                    iva = cantidadTotal /5;
+                    iva +=cantidadTotal;
+                    factura += "\t\t"+iva+"₡\n";
+                    
+                    clsI.guardarInforme(factura);
                     
                     
-                    
-                    for (int i = 0; i < posCompra; i++) {
+                    for (int i = 0; i < posVenta; i++) {
                         
                         for (int j = 0; j < posInventario; j++) {
                             
@@ -152,12 +206,14 @@ public class clsMenu {
                     }
                     
                     
-                    
-                    
-                    
+                                                            
                     break;
+
                 case 'B':
-                 
+                 clsI.imprimeInforme();
+                break; 
+                case 'C':
+                 clsI.imprimeInformeTotal();
                 break; 
                 case 'S':
                     clsH.imprimeMensaje( "Cerrando Modulo.");
