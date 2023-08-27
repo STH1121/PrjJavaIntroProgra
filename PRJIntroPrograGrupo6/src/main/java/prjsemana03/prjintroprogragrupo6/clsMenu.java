@@ -14,7 +14,8 @@ public class clsMenu {
     
     public void menuprincipal(){
     clsHelper clasH = new clsHelper();
-        
+        clsProducto inventario[]= new clsProducto[0];
+        int posInventario=0;
         char usuario = ' ';
         
         do {
@@ -30,11 +31,11 @@ public class clsMenu {
         switch (usuario) {
                 case 'A':
                     clasH.imprimeMensaje( "Iniciando modulo de ventas");
-                    //this.moduloVentas(invetario[],posInventario);
+                    this.moduloVentas(inventario,posInventario);
                     break;
                 case 'B':
                     clasH.imprimeMensaje( "Iniciando modulo de compras");
-                    // this.compras();
+                    this.moduloCompra(inventario,posInventario);
                     break;
                 case 'C':
                     clasH.imprimeMensaje( "Iniciando modulo usuarios");
