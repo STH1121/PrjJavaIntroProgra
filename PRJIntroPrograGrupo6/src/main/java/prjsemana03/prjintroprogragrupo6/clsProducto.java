@@ -113,22 +113,24 @@ public class clsProducto {
     
     public int agregarProducto(clsProducto producto[], int posProducto, String accion){
         clsHelper clsH = new clsHelper();
-        String nombre = clsH.recibirString("Nombre del producto"+accion+":");
+        String nombre = clsH.recibirString("Nombre del producto "+accion+":");
         String descripcion = clsH.recibirString("Descripcion del producto:");
-        
+        char caja;
+        int tamacaja;
+        char psicodelico;
         do {
-            char caja = clsH.recibeChar("El producto viene en tableta? S/N");
-        } while (caja != 'S' || caja != 'N');
+             caja = clsH.recibeChar("El producto viene en tableta? S/N");
+        } while (caja != 'S' && caja != 'N');
         if ( caja == 'S') {
-            int tamacaja = clsH.recibeInt("De que tamaño es la tableta");
+             tamacaja = clsH.recibeInt("De que tamaño es la tableta");
         }else{
-            int tamacaja = 0;
+             tamacaja = 0;
         }
         int cantidad = clsH.recibeInt("Digite la cantidad del producto");
         int precio = clsH.recibeInt("cual es el precio del producto?");
         do {
-            char psicolodegico = clsH.recibeChar("El producto viene en tableta? S/N");
-        } while (psicodelico != 'S' || psicodelico != 'N');
+             psicodelico = clsH.recibeChar("El producto es psicodelico? S/N");
+        } while (psicodelico != 'S' && psicodelico != 'N');
         
         producto[posProducto] = new clsProducto(nombre,descripcion,caja,tamacaja,cantidad,precio,psicodelico);
         
@@ -139,7 +141,7 @@ public class clsProducto {
     public int agregarProductoCompra(clsProducto producto[], int posProducto,String accion){
         clsHelper clsH = new clsHelper();
         
-        String nombre = clsH.recibirString("Nombre del producto"+accion+":");
+        String nombre = clsH.recibirString("Nombre del producto "+accion+":");
         
         
         int cantidad = clsH.recibeInt("Digite la cantidad del producto");
@@ -159,7 +161,7 @@ public class clsProducto {
     
     public int obtenerPoscProductos(clsProducto producto[], int poscProductos, String accion){
         clsHelper clsH = new clsHelper();
-        String nombreBuscar = clsH.recibirString("Digite el nombre del cliente que desea "+accion+":");
+        String nombreBuscar = clsH.recibirString("Digite el nombre del Producto que desea "+accion+":");
         int poscProductoBuscado = -1;
         for (int i = 0; i < poscProductos; i++) {
             if (nombreBuscar.equalsIgnoreCase(producto[i].getNombre())) {
@@ -197,7 +199,7 @@ public class clsProducto {
                     case 'C':
                         do {
                         char caja = clsH.recibeChar("El producto viene en tabletas? S/N");
-                            } while (caja != 'S' || caja != 'N');
+                            } while (caja != 'S' && caja != 'N');
         
                         producto[posc].setCaja(caja);
                         break;
@@ -214,7 +216,7 @@ public class clsProducto {
                         
                         do {
                         char psicodelico = clsH.recibeChar("El producto requiere permiso de un administrador? S/N");
-                            } while (psicodelico != 'S' || psicodelico != 'N');
+                            } while (psicodelico != 'S' && psicodelico != 'N');
         
                         producto[posc].setPsicodelico(psicodelico);
                         break;   
@@ -239,7 +241,8 @@ public class clsProducto {
                 for (int i = posc; i < posProducto-1; i++) {
                     producto[i] = producto[i+1];
                 }
-                producto[posProducto] = null;
+                
+                producto[posProducto]= null;
                 posProducto--;
 
                 clsH.imprimeMensaje("El Producto se eliminó de forma correcta");
@@ -254,19 +257,19 @@ public class clsProducto {
             clsH.imprimeMensaje("No se encontraron coincidencia con el producto digitado");
         }
         else{
-            clsH.imprimeMensaje("Los datos del cliente son:\n"
-                    + " Nombre: "+producto[posc].getNombre()
-                    + " \nDescripcion: "+producto[posc].getDescripcion()
-                    + " \nCantidad: "+producto[posc].getCantidad()
-                    + " \nPrecio: "+producto[posc].getPrecio()
-                    + " \nOcupa permiso de administrador? "+producto[posc].getPsicodelico()
+            clsH.imprimeMensaje("Los datos del Producto son:\n"
+                    + "Nombre: "+producto[posc].getNombre()
+                    + "\nDescripcion: "+producto[posc].getDescripcion()
+                    + "\nCantidad: "+producto[posc].getCantidad()
+                    + "\nPrecio: "+producto[posc].getPrecio()
+                    + "\nOcupa permiso de administrador? "+producto[posc].getPsicodelico()
             );
         }
     }
 
     public void listarProductos(clsProducto[] producto, int poscCliente){
         clsHelper clsH = new clsHelper();
-        String impresion = "Nombre\tCantidad\tprecio";
+        String impresion = "Nombre\t\tCantidad precio\n"; 
         for (int i = 0; i < poscCliente; i++) {
             impresion += producto[i].toString()+"\n";
         }
