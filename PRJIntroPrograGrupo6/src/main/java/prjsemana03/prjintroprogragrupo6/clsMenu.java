@@ -9,20 +9,24 @@ package prjsemana03.prjintroprogragrupo6;
  * @author Steven
  */
 public class clsMenu {
-     
+     int posInventario=0;
     
     
     public void menuprincipal(){
-    clsHelper clasH = new clsHelper();
+    clsHelper clsH = new clsHelper();
         clsProducto inventario[]= new clsProducto[0];
-        int posInventario=0;
+        
+        
+        
+        
+        
         char usuario = ' ';
         
         do {
-            usuario = clasH.recibeChar("Seleccione una opción:"
+            usuario = clsH.recibeChar("Seleccione una opción:"
                     + "\nA. Modulo Ventas"
                     + "\nB. Modulo Compras"
-                    + "\nC. Modulo usuarios"
+                    + "\nC. Modulo Usuarios"
                     + "\nD. Modulo Inventario"
                     + "\nE. Modulo Administracion"
                     + "\nF. Seguridad del sistema"
@@ -30,36 +34,36 @@ public class clsMenu {
             
         switch (usuario) {
                 case 'A':
-                    clasH.imprimeMensaje( "Iniciando modulo de ventas");
-                    this.moduloVentas(inventario,posInventario);
+                    clsH.imprimeMensaje( "Iniciando modulo de ventas");
+                    inventario = this.moduloVentas(inventario,posInventario);
                     break;
                 case 'B':
-                    clasH.imprimeMensaje( "Iniciando modulo de compras");
-                    this.moduloCompra(inventario,posInventario);
+                    clsH.imprimeMensaje( "Iniciando modulo de compras");
+                    inventario = this.moduloCompra(inventario,posInventario);
                     break;
                 case 'C':
-                    clasH.imprimeMensaje( "Iniciando modulo usuarios");
+                    clsH.imprimeMensaje( "Iniciando modulo usuarios");
                     // this.usuarios();
                     break;
                 case 'D':
-                    clasH.imprimeMensaje( "Iniciando modulo inventario");
-                    // this.inventario();
+                    clsH.imprimeMensaje( "Iniciando modulo inventario");
+                    inventario = this.moduloInventarios(inventario);
                     break;
                 case 'E':
-                    clasH.imprimeMensaje( "Iniciando modulo administracion");
+                    clsH.imprimeMensaje( "Iniciando modulo administracion");
                     // this.administracion();
                     break;    
                 case 'F':
-                    clasH.imprimeMensaje( "Abriendo seguridad del sistema");
+                    clsH.imprimeMensaje( "Abriendo seguridad del sistema");
                     // this.seguridad();
                     break;    
                 
                 case 'S':
-                    clasH.imprimeMensaje( "Cerrando aplicacion.");
+                    clsH.imprimeMensaje( "Cerrando aplicacion.");
                      
                     break;
                 default:
-                    clasH.imprimeMensaje( "Digite una opcion valida");
+                    clsH.imprimeMensaje( "Digite una opcion valida");
                     break;
             }
             
@@ -72,7 +76,98 @@ public class clsMenu {
         
         
     }
+   
+    
+    public clsProducto[] moduloInventarios(clsProducto inventario[]){
+        clsHelper clsH = new clsHelper();
+        clsProducto clsP = new clsProducto();
+        boolean listaInventario = false;
+        char usuario = 'S';
 
+        do{
+            usuario = clsH.recibeChar("Seleccione una opcion:"
+                    + "\nA. Generar lista"
+                    + "\nB. Agregar producto a la lista"
+                    + "\nC. Modificar producto"
+                    + "\nD. Eliminar producto"
+                    + "\nE. Buscar"
+                    + "\nF. Listar productos"
+
+                    + "\nS.Salir");
+
+            switch(usuario){
+                case'A':
+                    if (listaInventario) {
+                        char nueva = 'N';
+                        do {
+                            nueva = clsH.recibeChar("Desea generar una nuevo inventario?\nSi\nNo\n\n\nEsto Borra todo el inventario anterior");
+                        } while (nueva != 'S' && nueva != 'N');
+                        if (nueva == 'S') {
+                            inventario = clsP.generarListaProductos();
+                            posInventario = 0;
+                            listaInventario = true;
+                        }
+                    } else {
+                        inventario = clsP.generarListaProductos();
+                        listaInventario = true;
+                    }
+                break;
+                case'B':
+                    if (listaInventario) {
+                        if (posInventario < inventario.length) {
+                            posInventario = clsP.agregarProducto(inventario, posInventario,"nuevo");
+                            clsH.imprimeMensaje("Producto agregado satisfactoriamente.");
+                        } else {
+                            clsH.imprimeMensaje("La lista de productos se encuentra llena, ya no puede agregar más!");
+                        }
+                    } else {
+                        clsH.imprimeMensaje("Debe generar primero la lista de Inventario!");
+                    }
+
+                break;
+                case'C':
+                    if (posInventario == 0) {
+                        clsH.imprimeMensaje("Debe agregar un Producto primero!");
+                    } else {
+                        clsP.modificarProducto(inventario, posInventario);
+                    }
+
+                break;
+                case'D':
+                    if (posInventario == 0) {
+                        clsH.imprimeMensaje("Debe agregar un Producto primero!");
+                    } else {
+                        posInventario = clsP.eliminarProducto(inventario, posInventario);
+                    }
+
+                break;
+                case'E':
+                     if (posInventario == 0) {
+                        clsH.imprimeMensaje("Debe agregar un Producto primero!");
+                    } else {
+                        clsP.buscarProducto(inventario, posInventario);
+                    }
+                break;
+                case'F':
+                   if (posInventario == 0) {
+                        clsH.imprimeMensaje("Debe agregar un Producto primero!");
+                    } else {
+                        clsP.listarProductos(inventario, posInventario);
+                    } 
+                break;
+                case 'S':
+                    clsH.imprimeMensaje( "Cerrando Modulo.");
+
+                break;
+                default:
+                    clsH.imprimeMensaje( "Digite una opcion valida");
+                break;
+
+            }
+        }while(usuario !='S');
+        
+        return inventario;
+        }
     
     public clsProducto[] moduloCompra(clsProducto inventario[], int posInventario){
         clsHelper clsH = new clsHelper();
@@ -131,7 +226,8 @@ public class clsMenu {
         clsProducto clsP = new clsProducto();
         clsInforme clsI = new clsInforme();
         char usuario = ' ';
-        
+        int posVenta = 0;
+        clsProducto compra[] = clsP.generarListaProductos();
         do {
             usuario = clsH.recibeChar("Seleccione una opción:"
                     + "\nA. Factura nueva"
@@ -144,11 +240,11 @@ public class clsMenu {
                 String factura = "Nombre\tCantidad\tPrecio\n";
                 int cantidadTotal= 0;
                 int iva = 0;
-                clsProducto compra[] = clsP.generarListaProductos();
-                int posVenta = 0;
-                char opcion = ' ';
+                
+                
+                char opcion = 'N';
                 do {
-                    posVenta = clsP.agregarProductoCompra(compra, posVenta,"Vender");
+                    posVenta = compra[posVenta].agregarProductoCompra(compra, posVenta,"Vender");
 
                     String nombreBuscar = compra[posVenta].getNombre();
                     int poscProductoBuscado = -1;
@@ -172,14 +268,14 @@ public class clsMenu {
                         
                     opcion = clsH.recibeChar("Desea agregar mas producto? S/N");
 
-                    } while (opcion == 'N');
+                    } while (opcion != 'N');
                     for (int i = 0; i < posVenta; i++) {
                         factura += compra[i].toString()+"\n";
                     }
                     for (int i = 0; i < posVenta; i++) {
                         cantidadTotal+= compra[i].getCantidad() * compra[i].getPrecio();
                     }
-                    factura += "\n\t\t"+cantidadTotal+"₡\n";
+                    factura += "\n\t\t"+cantidadTotal+"₡\n"; //2% iva
                     iva = cantidadTotal /5;
                     iva +=cantidadTotal;
                     factura += "\t\t"+iva+"₡\n";
