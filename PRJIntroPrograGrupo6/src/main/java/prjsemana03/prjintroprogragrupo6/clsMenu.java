@@ -225,9 +225,9 @@ public class clsMenu {
         clsHelper clsH = new clsHelper();
         clsProducto clsP = new clsProducto();
         clsInforme clsI = new clsInforme();
-        char usuario = ' ';
+        char usuario = 'S';
         int posVenta = 0;
-        clsProducto compra[] = clsP.generarListaProductos();
+        clsProducto[] venta = new clsProducto[100];
         do {
             usuario = clsH.recibeChar("Seleccione una opción:"
                     + "\nA. Factura nueva"
@@ -240,26 +240,30 @@ public class clsMenu {
                 String factura = "Nombre\tCantidad\tPrecio\n";
                 int cantidadTotal= 0;
                 int iva = 0;
-                
+                int poscProductoBuscado = -1;
                 
                 char opcion = 'N';
                 do {
-                    posVenta = compra[posVenta].agregarProductoCompra(compra, posVenta,"Vender");
+                    
+                    posVenta = clsP.agregarProductoCompra(venta, posVenta,"Vender");
 
-                    String nombreBuscar = compra[posVenta].getNombre();
-                    int poscProductoBuscado = -1;
-                    for (int i = 0; i < posInventario; i++) {
-                        if (nombreBuscar.equalsIgnoreCase(inventario[i].getNombre())) {
-                        poscProductoBuscado = i;
-                        break;
-                        }
-                    }
+                    String nombreBuscar = venta[posVenta-1].getNombre();
+                    
+                    
+                    poscProductoBuscado = clsP.obtenerPoscProductosCompra(venta, posVenta, nombreBuscar);
+                    
+//                    for (int i = 0; i < posInventario; i++) {
+//                        if (nombreBuscar.equalsIgnoreCase(inventario[i].getNombre())) {
+//                        poscProductoBuscado = i;
+//                        break;
+//                        }
+//                    }
                     if (poscProductoBuscado == -1) {
                         clsH.imprimeMensaje("el producto no esta en el inventario");
                     }else{
                     
-                    compra[posVenta].setPrecio(inventario[poscProductoBuscado].getPrecio());
-                    posVenta++;
+                    venta[posVenta-1].setPrecio(inventario[poscProductoBuscado].getPrecio());
+                    
                     
                     }
             
@@ -269,11 +273,12 @@ public class clsMenu {
                     opcion = clsH.recibeChar("Desea agregar mas producto? S/N");
 
                     } while (opcion != 'N');
+                
                     for (int i = 0; i < posVenta; i++) {
-                        factura += compra[i].toString()+"\n";
+                        factura += venta[i].toString()+"\n";
                     }
                     for (int i = 0; i < posVenta; i++) {
-                        cantidadTotal+= compra[i].getCantidad() * compra[i].getPrecio();
+                        cantidadTotal+= venta[i].getCantidad() * venta[i].getPrecio();
                     }
                     factura += "\n\t\t"+cantidadTotal+"₡\n"; //2% iva
                     iva = cantidadTotal /5;
@@ -287,11 +292,11 @@ public class clsMenu {
                         
                         for (int j = 0; j < posInventario; j++) {
                             
-                            if (compra[i].getNombre().equalsIgnoreCase(inventario[j].getNombre())) {
-                                if (compra[i].getCantidad()> inventario[j].getCantidad()) {
-                                    inventario[j].setCantidad(inventario[j].getCantidad()-compra[i].getCantidad());
+                            if (venta[i].getNombre().equalsIgnoreCase(inventario[j].getNombre())) {
+                                if (venta[i].getCantidad()> inventario[j].getCantidad()) {
+                                    inventario[j].setCantidad(inventario[j].getCantidad()-venta[i].getCantidad());
                                 }else{
-                                    clsH.imprimeMensaje("No hay suficente "+compra[i].getNombre()+" para realizar la venta");
+                                    clsH.imprimeMensaje("No hay suficente "+venta[i].getNombre()+" para realizar la venta");
                                     break;
                                 }
                                 
