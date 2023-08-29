@@ -252,12 +252,7 @@ public class clsMenu {
                     
                     poscProductoBuscado = clsP.obtenerPoscProductosCompra(venta, posVenta, nombreBuscar);
                     
-//                    for (int i = 0; i < posInventario; i++) {
-//                        if (nombreBuscar.equalsIgnoreCase(inventario[i].getNombre())) {
-//                        poscProductoBuscado = i;
-//                        break;
-//                        }
-//                    }
+
                     if (poscProductoBuscado == -1) {
                         clsH.imprimeMensaje("el producto no esta en el inventario");
                     }else{
@@ -283,7 +278,7 @@ public class clsMenu {
                     factura += "\n\t\t"+cantidadTotal+"₡\n"; //2% iva
                     iva = cantidadTotal /5;
                     iva +=cantidadTotal;
-                    factura += "\t\t"+iva+"₡\n";
+                    factura += "\t\t"+iva+"₡ IVA\n";
                     
                     clsI.guardarInforme(factura);
                     
@@ -293,7 +288,7 @@ public class clsMenu {
                         for (int j = 0; j < posInventario; j++) {
                             
                             if (venta[i].getNombre().equalsIgnoreCase(inventario[j].getNombre())) {
-                                if (venta[i].getCantidad()> inventario[j].getCantidad()) {
+                                if (venta[i].getCantidad() < inventario[j].getCantidad()+1) {
                                     inventario[j].setCantidad(inventario[j].getCantidad()-venta[i].getCantidad());
                                 }else{
                                     clsH.imprimeMensaje("No hay suficente "+venta[i].getNombre()+" para realizar la venta");
