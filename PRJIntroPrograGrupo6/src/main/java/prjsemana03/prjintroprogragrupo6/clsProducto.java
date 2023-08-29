@@ -147,7 +147,7 @@ public class clsProducto {
         int cantidad = clsH.recibeInt("Digite la cantidad del producto");
         
         
-        producto[posProducto] = new clsProducto(nombre,cantidad);
+        producto[posProducto] = new clsProducto(nombre,"",'N',0,cantidad,0,'N');
         
         posProducto++;
         return posProducto;
@@ -162,6 +162,19 @@ public class clsProducto {
     public int obtenerPoscProductos(clsProducto producto[], int poscProductos, String accion){
         clsHelper clsH = new clsHelper();
         String nombreBuscar = clsH.recibirString("Digite el nombre del Producto que desea "+accion+":");
+        int poscProductoBuscado = -1;
+        for (int i = 0; i < poscProductos; i++) {
+            if (nombreBuscar.equalsIgnoreCase(producto[i].getNombre())) {
+                poscProductoBuscado = i;
+                break;
+            }
+        }
+        return poscProductoBuscado;
+    }    
+   
+        public int obtenerPoscProductosCompra(clsProducto producto[], int poscProductos, String buscado){
+        clsHelper clsH = new clsHelper();
+        String nombreBuscar = buscado;
         int poscProductoBuscado = -1;
         for (int i = 0; i < poscProductos; i++) {
             if (nombreBuscar.equalsIgnoreCase(producto[i].getNombre())) {
