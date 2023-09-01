@@ -153,9 +153,9 @@ public class clsUsuarios {
         char tipo;
         do {
              tipo = clsH.recibeChar("Digite el tipo de usuario: "
-                                + "A = Admin"
-                                + "V = Vendedor"
-                                + "C = Cajero");
+                                + "\nA = Admin"
+                                + "\nV = Vendedor"
+                                + "\nC = Cajero");
         } while (tipo != 'A' && tipo != 'V' && tipo != 'C');
         usuarios[posUsuario] = new clsUsuarios(nombreCompleto, correo, numTelefono, direccion, edad, clave,"",tipo);
         posUsuario++;
@@ -187,9 +187,9 @@ public char obtenerPosUsuarioSeguridad(clsUsuarios usuarios[], int posUsuario, S
         if (usuarios[posUsuarioBuscado].getClave() == contra) {
         return usuarios[posUsuarioBuscado].getTipo();
         }else{
-            clsH.imprimeMensaje("Contraseña incorrecta");           
+            return usuarios[posUsuarioBuscado].getTipo();
         }
-        return usuarios[posUsuarioBuscado].getTipo();
+        
     }
     
     public int obtenerPosUsuarioInhabilitado(clsUsuarios usuariosInhabilitados[], int posUsuarioInhabilitado, String accion) {
