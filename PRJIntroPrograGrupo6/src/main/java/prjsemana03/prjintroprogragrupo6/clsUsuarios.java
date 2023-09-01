@@ -187,9 +187,9 @@ public char obtenerPosUsuarioSeguridad(clsUsuarios usuarios[], int posUsuario, S
         if (usuarios[posUsuarioBuscado].getClave() == contra) {
         return usuarios[posUsuarioBuscado].getTipo();
         }else{
-            clsH.imprimeMensaje("Contraseña incorrecta");           
+            return usuarios[posUsuarioBuscado].getTipo();
         }
-        return usuarios[posUsuarioBuscado].getTipo();
+        
     }
     
     public int obtenerPosUsuarioInhabilitado(clsUsuarios usuariosInhabilitados[], int posUsuarioInhabilitado, String accion) {
