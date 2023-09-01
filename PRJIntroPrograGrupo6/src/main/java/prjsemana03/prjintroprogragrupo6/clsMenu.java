@@ -9,12 +9,12 @@ package prjsemana03.prjintroprogragrupo6;
  * @author Steven
  */
 public class clsMenu {
-     int posInventario=0;
-    
+    int posInventario=0;
+    clsInforme clsI = new clsInforme();
     
     public void menuprincipal(){
     clsHelper clsH = new clsHelper();
-        clsProducto inventario[]= new clsProducto[0];
+    clsProducto inventario[]= new clsProducto[0];
         
         
         
@@ -25,11 +25,10 @@ public class clsMenu {
         do {
             usuario = clsH.recibeChar("Seleccione una opción:"
                     + "\nA. Modulo Ventas"
-                    + "\nB. Modulo Compras"
-                    + "\nC. Modulo Usuarios"
-                    + "\nD. Modulo Inventario"
-                    + "\nE. Modulo Administracion"
-                    + "\nF. Seguridad del sistema"
+                    + "\nB. Modulo Compras"                    
+                    + "\nC. Modulo Inventario"
+                    + "\nD. Modulo Administracion"
+                    + "\nF. Modulo Informes"                   
                     + "\nS. Salir");
             
         switch (usuario) {
@@ -41,22 +40,19 @@ public class clsMenu {
                     clsH.imprimeMensaje( "Iniciando modulo de compras");
                     inventario = this.moduloCompra(inventario,posInventario);
                     break;
+               
                 case 'C':
-                    clsH.imprimeMensaje( "Iniciando modulo usuarios");
-                    // this.usuarios();
-                    break;
-                case 'D':
                     clsH.imprimeMensaje( "Iniciando modulo inventario");
                     inventario = this.moduloInventarios(inventario);
                     break;
-                case 'E':
+                case 'D':
                     clsH.imprimeMensaje( "Iniciando modulo administracion");
                     // this.administracion();
                     break;    
                 case 'F':
-                    clsH.imprimeMensaje( "Abriendo seguridad del sistema");
-                    // this.seguridad();
-                    break;    
+                    clsH.imprimeMensaje( "Iniciando modulo informes");
+                    this.moduloInforme();
+                    break;   
                 
                 case 'S':
                     clsH.imprimeMensaje( "Cerrando aplicacion.");
@@ -171,8 +167,8 @@ public class clsMenu {
     
     public clsProducto[] moduloCompra(clsProducto inventario[], int posInventario){
         clsHelper clsH = new clsHelper();
-        clsProducto clsP = new clsProducto();
-        char usuario = ' ';
+        String informe;
+        char usuario = 'S';
         do {
              usuario = clsH.recibeChar("Seleccione una opción:"
                     + "\nA. Compra nueva"
@@ -194,6 +190,8 @@ public class clsMenu {
                         clsH.imprimeMensaje("El producto no existe,\ntiene que agregarlo desde el modulo de inventario");
                     }else{
                         cantidadAgregar = clsH.recibeInt("Indique la cantidad de producto a agregar:");
+                        informe = productoAgregar+"\t"+cantidadAgregar;
+                        clsI.guardarInformeCompra(informe);
                         inventario[posProductoAgregar].setCantidad(inventario[posProductoAgregar].getCantidad()+cantidadAgregar);
                     }
                     
@@ -224,7 +222,7 @@ public class clsMenu {
     public clsProducto[] moduloVentas(clsProducto inventario[],int posInventario){
         clsHelper clsH = new clsHelper();
         clsProducto clsP = new clsProducto();
-        clsInforme clsI = new clsInforme();
+        
         char usuario = 'S';
         int posVenta = 0;
         clsProducto[] venta = new clsProducto[100];
@@ -245,12 +243,12 @@ public class clsMenu {
                 char opcion = 'N';
                 do {
                     
-                    posVenta = clsP.agregarProductoCompra(venta, posVenta,"Vender");
+                    posVenta = clsP.agregarProductoVenta(venta, posVenta,"Vender");
 
                     String nombreBuscar = venta[posVenta-1].getNombre();
                     
                     
-                    poscProductoBuscado = clsP.obtenerPoscProductosCompra(venta, posVenta, nombreBuscar);
+                    poscProductoBuscado = clsP.obtenerPoscProductosVenta(venta, posVenta, nombreBuscar);
                     
 
                     if (poscProductoBuscado == -1) {
@@ -276,7 +274,7 @@ public class clsMenu {
                         cantidadTotal+= venta[i].getCantidad() * venta[i].getPrecio();
                     }
                     factura += "\n\t\t"+cantidadTotal+"₡\n"; //2% iva
-                    iva = cantidadTotal /5;
+                    iva = cantidadTotal /50;
                     iva +=cantidadTotal;
                     factura += "\t\t"+iva+"₡ IVA\n";
                     
@@ -343,5 +341,45 @@ public class clsMenu {
         
         return inventario;
     }
+    
+    public void moduloInforme(){
+       clsHelper clsH = new clsHelper();
+      char usuario = 'S';        
+        do {
+            usuario = clsH.recibeChar("Seleccione una opción:"                   
+                    + "\nA. Revisar factura anterior"
+                    + "\nB. Todas las Facturas"
+                    + "\nC. Revisar Informe Compra"
+                    + "\nD, Todas las compras"                   
+                    + "\nS. Salir");
+            switch (usuario){
+
+                case 'A':
+                 clsI.imprimeInforme();
+                break; 
+                case 'B':
+                 clsI.imprimeInformeTotal();
+                break; 
+                case 'C':
+                 clsI.imprimeInformeCompra();
+                break; 
+                case 'D':
+                 clsI.imprimeInformeTotalCompra();
+                break; 
+                case 'S':
+                    clsH.imprimeMensaje( "Cerrando Modulo.");
+                     
+                    break;
+                default:
+                    clsH.imprimeMensaje( "Digite una opcion valida");
+                    break;
+                    }
+                    
+
+
+                } while (usuario != 'S');
+
+    }
+    
     
 }

@@ -9,10 +9,10 @@ import java.awt.TextArea;
  * @author Steven
  */
 public class clsInforme {
-    private     String informe;
-    
+    private String informe;  
     private String informePasado;
-
+    private String informeCompra;  
+    private String informePasadoCompra = "Producto\tCantidad";
     public clsInforme() {
     }
 
@@ -20,6 +20,15 @@ public class clsInforme {
         this.informe = informe;
         this.informePasado = informePasado;
     }
+
+    public clsInforme(String informe, String informePasado, String informeCompra, String informePasadoCompra) {
+        this.informe = informe;
+        this.informePasado = informePasado;
+        this.informeCompra = informeCompra;
+        this.informePasadoCompra = informePasadoCompra;
+    }
+    
+    
 
     public String getInformePasado() {
         return informePasado;
@@ -36,7 +45,23 @@ public class clsInforme {
     public void setInforme(String informe) {
         this.informe = informe;
     }
+    
+        public String getInformeCompra() {
+        return informeCompra;
+    }
 
+    public void setInformeCompra(String informeCompra) {
+        this.informeCompra = informeCompra;
+    }
+
+    public String getInformePasadoCompra() {
+        return informePasadoCompra;
+    }
+
+    public void setInformePasadoCompra(String informePasadoCompra) {
+        this.informePasadoCompra = informePasadoCompra;
+    }
+    
     @Override
     public String toString() {
         return informePasado;
@@ -48,8 +73,8 @@ public class clsInforme {
     }
     
     public void informeTotal(String informeRecibe){
-        informePasado += informeRecibe;
         informePasado += "------------------------------------------------------------------------\n";
+        informePasado += informeRecibe;        
     }
     
     public void imprimeInforme(){
@@ -60,4 +85,27 @@ public class clsInforme {
         clsHelper clsH = new clsHelper();
         clsH.imprimeMensaje(new TextArea(informePasado));
     }
+
+    public void guardarInformeCompra(String informeRecibe){
+        this.informeTotalCompra(informeRecibe);
+        informeCompra = informeRecibe;
+    }
+    
+    public void informeTotalCompra(String informeRecibe){
+        
+        informePasadoCompra += informeRecibe;
+        informePasadoCompra += "------------------------------------------------------------------------\n";
+        
+    }
+    
+    public void imprimeInformeCompra(){
+        clsHelper clsH = new clsHelper();
+        clsH.imprimeMensaje(new TextArea(informeCompra));
+    }
+    public void imprimeInformeTotalCompra(){
+        clsHelper clsH = new clsHelper();
+        clsH.imprimeMensaje(new TextArea(informePasadoCompra));
+    }
+    
+    
 }
