@@ -11,12 +11,21 @@ package prjsemana03.prjintroprogragrupo6;
 public class clsMenu {
     int posInventario=0;
     clsInforme clsI = new clsInforme();
+    clsUsuarios clsU = new clsUsuarios();
+    clsUsuarios usuarios[] = new clsUsuarios[100]; // Ajustar el tamaño según sea necesario
+    clsUsuarios usuariosInhabilitados[] = new clsUsuarios[100]; // Ajustar el tamaño según sea necesario
     
+    int posUsuario = 1;
+    int posUsuariosInhabilitados = 0;
     public void menuprincipal(){
-    clsHelper clsH = new clsHelper();
-    clsProducto inventario[]= new clsProducto[0];
+        usuarios[0] = new clsUsuarios("admin","admin",'A');
+        clsHelper clsH = new clsHelper();
+        clsProducto inventario[]= new clsProducto[0];
         
+        String user = clsH.recibirString("Indique su usuario:");
+        String contra= clsH.recibirString("Indique su contraseña:");
         
+        char userTipo = clsU.obtenerPosUsuarioSeguridad(usuarios, posUsuario, user, contra);
         
         
         
@@ -33,26 +42,82 @@ public class clsMenu {
             
         switch (usuario) {
                 case 'A':
-                    clsH.imprimeMensaje( "Iniciando modulo de ventas");
-                    inventario = this.moduloVentas(inventario,posInventario);
-                    break;
+                    if (userTipo == 'A') {
+                        clsH.imprimeMensaje( "Iniciando modulo de ventas");
+                        inventario = this.moduloVentas(inventario,posInventario);
+                        break;
+                    }else if (userTipo == 'C') {
+                        clsH.imprimeMensaje("No tiene accesso a este modulo");
+                    }else if (userTipo == 'V') {
+                        clsH.imprimeMensaje( "Iniciando modulo de ventas");
+                        inventario = this.moduloVentas(inventario,posInventario);
+                        break;
+                    }else{
+                        clsH.imprimeMensaje("credenciales invalidas");
+                    }
+                    
                 case 'B':
-                    clsH.imprimeMensaje( "Iniciando modulo de compras");
-                    inventario = this.moduloCompra(inventario,posInventario);
-                    break;
+                    if (userTipo == 'A') {
+                        clsH.imprimeMensaje( "Iniciando modulo de ventas");
+                        inventario = this.moduloCompra(inventario,posInventario);
+                        break;
+                    }else if (userTipo == 'C') {
+                        clsH.imprimeMensaje("No tiene accesso a este modulo");
+                        break;
+                    }else if (userTipo == 'V') {
+                        clsH.imprimeMensaje("No tiene accesso a este modulo");
+                        break;
+                    }else{
+                        clsH.imprimeMensaje("credenciales invalidas");
+                    }
+
                
                 case 'C':
-                    clsH.imprimeMensaje( "Iniciando modulo inventario");
-                    inventario = this.moduloInventarios(inventario);
-                    break;
+                    if (userTipo == 'A') {
+                        clsH.imprimeMensaje( "Iniciando modulo inventario");
+                        inventario = this.moduloInventarios(inventario);
+                        break;
+                    }else if (userTipo == 'C') {
+                        clsH.imprimeMensaje("No tiene accesso a este modulo");
+                    }else if (userTipo == 'V') {
+                        clsH.imprimeMensaje("No tiene accesso a este modulo");
+                    }else{
+                        clsH.imprimeMensaje("credenciales invalidas");
+                    }
+                    
+                    
+                    
+                    
                 case 'D':
-                    clsH.imprimeMensaje( "Iniciando modulo administracion");
-                    // this.administracion();
-                    break;    
+                    
+                    if (userTipo == 'A') {
+                        clsH.imprimeMensaje( "Iniciando modulo administracion");
+                        this.ModuloAdministracion();
+                        break;
+                    }else if (userTipo == 'C') {
+                        clsH.imprimeMensaje("No tiene accesso a este modulo");
+                    }else if (userTipo == 'V') {
+                        clsH.imprimeMensaje("No tiene accesso a este modulo");
+                    }else{
+                        clsH.imprimeMensaje("credenciales invalidas");
+                    }
+                        
                 case 'F':
-                    clsH.imprimeMensaje( "Iniciando modulo informes");
+                    if (userTipo == 'A') {
+                        clsH.imprimeMensaje( "Iniciando modulo informes");
                     this.moduloInforme();
-                    break;   
+                    break;  
+                    }else if (userTipo == 'C') {
+                        clsH.imprimeMensaje( "Iniciando modulo informes");
+                    this.moduloInforme();
+                    break;  
+                    }else if (userTipo == 'V') {
+                        clsH.imprimeMensaje("No tiene accesso a este modulo");
+                    }else{
+                        clsH.imprimeMensaje("credenciales invalidas");
+                    }
+                    
+                     
                 
                 case 'S':
                     clsH.imprimeMensaje( "Cerrando aplicacion.");
@@ -381,5 +446,85 @@ public class clsMenu {
 
     }
     
+    public void ModuloAdministracion(){
+        clsHelper clsH = new clsHelper();
+        char opcion = 'S';
+
+        do {
+            opcion = clsH.recibeChar("Seleccione una opción:\n"
+                    + " A. Agregar Usuario\n"
+                    + " B. Eliminar Usuario\n"
+                    + " C. Modificar Usuario\n"
+                    + " D. Buscar Usuario\n"
+                    + " E. Listar Usuarios\n"
+                    + " F. Inhabilitar Usuario\n"
+                    + " G. Habilitar Usuario\n"
+                    + " H. Listar Usuarios Inhabilitados\n"
+                    + " S. Salir");
+
+            switch (opcion) {
+                case 'A':
+                    if (posUsuario < usuarios.length) {
+                        posUsuario = clsU.agregarUsuario(usuarios, posUsuario);
+                    } else {
+                        clsH.imprimeMensaje("La lista de usuarios se encuentra llena.");
+                    }
+                    break;
+                case 'B':
+                    if (posUsuario == 0) {
+                        clsH.imprimeMensaje("No hay usuarios para eliminar.");
+                    } else {
+                        posUsuario = clsU.eliminarUsuario(usuarios, posUsuario);
+                    }
+                    break;
+                case 'C':
+                    if (posUsuario == 0) {
+                        clsH.imprimeMensaje("No hay usuarios para modificar.");
+                    } else {
+                        clsU.modificarUsuario(usuarios, posUsuario);
+                    }
+                    break;
+                case 'D':
+                    if (posUsuario == 0) {
+                        clsH.imprimeMensaje("No hay usuarios para buscar.");
+                    } else {
+                        clsU.buscarUsuario(usuarios, posUsuario);
+                    }
+                    break;
+                case 'E':
+                    if (posUsuario == 0) {
+                        clsH.imprimeMensaje("No hay usuarios para listar.");
+                    } else {
+                        clsU.listarUsuarios(usuarios, posUsuario);
+                    }
+                    break;
+                case 'F':
+                    if (posUsuario == 0) {
+                        clsH.imprimeMensaje("No hay usuarios para inhabilitar.");
+                    } else {
+                        clsU.inhabilitarUsuario(usuariosInhabilitados, posUsuariosInhabilitados, usuarios, posUsuario);
+                    }
+                    break;
+                case 'G':
+                    if (posUsuariosInhabilitados == 0) {
+                        clsH.imprimeMensaje("No hay usuarios inhabilitados para habilitar.");
+                    } else {
+                        clsU.habilitarUsuario(usuariosInhabilitados, posUsuariosInhabilitados, usuarios, posUsuario);
+                    }
+                    break;
+                case 'H':
+                    if (posUsuariosInhabilitados == 0) {
+                        clsH.imprimeMensaje("No hay usuarios inhabilitados para mostrar.");
+                    } else {
+                        clsU.listarUsuariosInhabilitados(usuariosInhabilitados, posUsuariosInhabilitados);
+                    }
+                    break;
+                case 'S':
+                    break;
+                default:
+                    clsH.imprimeMensaje("La opción seleccionada no es válida.");
+            }
+        } while (opcion != 'S');
+    }
     
 }

@@ -9,9 +9,9 @@ import java.awt.TextArea;
  * @author Steven
  */
 public class clsInforme {
-    private String informe;  
-    private String informePasado;
-    private String informeCompra;  
+    private String informe = "";  
+    private String informePasado = "";
+    private String informeCompra = "";  
     private String informePasadoCompra = "Producto\tCantidad";
     public clsInforme() {
     }
