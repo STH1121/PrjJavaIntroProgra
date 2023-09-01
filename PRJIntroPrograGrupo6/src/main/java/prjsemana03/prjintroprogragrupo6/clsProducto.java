@@ -6,15 +6,15 @@ package prjsemana03.prjintroprogragrupo6;
 import java.awt.TextArea;
 /**
  *
- * @author Steven
+ * @author Steven 
  */
 public class clsProducto {
     String nombre;
     String descripcion;
-    char caja;  // SON PASTILLAS
+    char caja;  // SON PASTILLAS S/N
     int tamacaja;  // CUANTAS POR TABLETA
-    int cantidad; // TOTAL 
-    int precio;
+    int cantidad; // TOTAL de cantidad  
+    int precio; //Precio individual si son pastillas  S/N
     char psicodelico;  // SI OCUPA PERMISO DE ADMINISTRADOR PARA VENDERLO
 
     public clsProducto() {
@@ -104,10 +104,8 @@ public class clsProducto {
         return nombre + "\t" + cantidad + "\t" + precio;
     }
     
-    public clsProducto[] generarListaProductos(){
-        clsHelper clsH = new clsHelper();
-        int tamano = 100;
-        clsProducto productos[] = new clsProducto[tamano];
+    public clsProducto[] generarListaProductos(){    
+        clsProducto productos[] = new clsProducto[100];
         return productos;
     }
     
@@ -122,12 +120,12 @@ public class clsProducto {
              caja = clsH.recibeChar("El producto viene en tableta? S/N");
         } while (caja != 'S' && caja != 'N');
         if ( caja == 'S') {
-             tamacaja = clsH.recibeInt("De que tamaño es la tableta");
+             tamacaja = clsH.recibeInt("De que tamaño es la tableta:");
         }else{
-             tamacaja = 0;
+             tamacaja = 1;
         }
         int cantidad = clsH.recibeInt("Digite la cantidad del producto");
-        int precio = clsH.recibeInt("cual es el precio del producto?");
+        int precio = clsH.recibeInt("Cual es el precio del producto?");
         do {
              psicodelico = clsH.recibeChar("El producto es psicodelico? S/N");
         } while (psicodelico != 'S' && psicodelico != 'N');
@@ -138,7 +136,7 @@ public class clsProducto {
         return posProducto;
     }
 
-    public int agregarProductoCompra(clsProducto producto[], int posProducto,String accion){
+    public int agregarProductoVenta(clsProducto producto[], int posProducto,String accion){
         clsHelper clsH = new clsHelper();
         
         String nombre = clsH.recibirString("Nombre del producto "+accion+":");
@@ -172,12 +170,11 @@ public class clsProducto {
         return poscProductoBuscado;
     }    
    
-        public int obtenerPoscProductosCompra(clsProducto producto[], int poscProductos, String buscado){
-        clsHelper clsH = new clsHelper();
-        String nombreBuscar = buscado;
+        public int obtenerPoscProductosVenta(clsProducto producto[], int poscProductos, String buscado){
+        
         int poscProductoBuscado = -1;
         for (int i = 0; i < poscProductos; i++) {
-            if (nombreBuscar.equalsIgnoreCase(producto[i].getNombre())) {
+            if (buscado.equalsIgnoreCase(producto[i].getNombre())) {
                 poscProductoBuscado = i;
                 break;
             }
@@ -187,6 +184,8 @@ public class clsProducto {
     
     public void modificarProducto(clsProducto[] producto, int posProducto){
         clsHelper clsH = new clsHelper();
+        char tableta;
+        char psicodelico;
         int posc = this.obtenerPoscProductos(producto, posProducto, "modificar");
         if (posc == -1) {
             clsH.imprimeMensaje("No se encontraron coincidencias con el nombre indicado.");
@@ -211,10 +210,10 @@ public class clsProducto {
                         break;
                     case 'C':
                         do {
-                        char caja = clsH.recibeChar("El producto viene en tabletas? S/N");
-                            } while (caja != 'S' && caja != 'N');
+                        tableta = clsH.recibeChar("El producto viene en tabletas? S/N");
+                            } while (tableta != 'S' && tableta != 'N');
         
-                        producto[posc].setCaja(caja);
+                        producto[posc].setCaja(tableta);
                         break;
                     case 'D':
                         producto[posc].setTamacaja(clsH.recibeInt("Digite el tamaño de las tabletas:"));
@@ -228,7 +227,7 @@ public class clsProducto {
                     case 'G':
                         
                         do {
-                        char psicodelico = clsH.recibeChar("El producto requiere permiso de un administrador? S/N");
+                         psicodelico = clsH.recibeChar("El producto requiere permiso de un administrador? S/N");
                             } while (psicodelico != 'S' && psicodelico != 'N');
         
                         producto[posc].setPsicodelico(psicodelico);
