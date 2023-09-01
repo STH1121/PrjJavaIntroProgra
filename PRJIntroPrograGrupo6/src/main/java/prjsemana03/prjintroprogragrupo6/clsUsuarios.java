@@ -153,9 +153,9 @@ public class clsUsuarios {
         char tipo;
         do {
              tipo = clsH.recibeChar("Digite el tipo de usuario: "
-                                + "A = Admin"
-                                + "V = Vendedor"
-                                + "C = Cajero");
+                                + "\nA = Admin"
+                                + "\nV = Vendedor"
+                                + "\nC = Cajero");
         } while (tipo != 'A' && tipo != 'V' && tipo != 'C');
         usuarios[posUsuario] = new clsUsuarios(nombreCompleto, correo, numTelefono, direccion, edad, clave,"",tipo);
         posUsuario++;
